@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+  <title>Fichiers — Galerie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="orbs" aria-hidden="true"><div class="orb orb--a"></div><div class="orb orb--b"></div><div class="orb orb--c"></div></div>
+  <header class="masthead">
+    <p class="frame-counter">◈ Documents</p>
+    <h1 class="wordmark">Fichiers</h1>
+    <p class="tagline">Le catalogue des documents publiés sur ce site.</p>
+  </header>
+  <nav class="site-nav mono">
+    <a href="index.html">Galerie</a>
+    <a href="journal.html">Journal</a>
+    <a href="livre-or.html">Livre d'or</a>
+    <a href="fichiers.html" class="current">Fichiers</a>
+    <a href="ia.html">IA Mistral</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <main class="content-wrap">
+    <div id="filesList" class="journal-list"></div>
+    <div id="emptyFiles" class="empty-state" hidden>
+      <span class="mono">— dossier vide —</span>
+      <p>Aucun fichier n'a encore été partagé.</p>
+    </div>
+  </main>
+
+  <div id="filePreviewModal" class="file-preview-modal" hidden>
+    <div class="file-preview-backdrop" data-close="true"></div>
+    <div class="file-preview-panel" role="dialog" aria-modal="true" aria-label="Aperçu du fichier">
+      <button class="file-preview-close" type="button" aria-label="Fermer">✕</button>
+      <div id="filePreviewContent" class="file-preview-content"></div>
+    </div>
+  </div>
+
+  <script src="files.js"></script>
+</body>
+</html>

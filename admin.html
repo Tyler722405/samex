@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https://api.github.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+<title>Espace propriétaire — Galerie</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-body">
+
+<div class="orbs" aria-hidden="true"><div class="orb orb--a"></div><div class="orb orb--b"></div></div>
+
+<header class="masthead masthead--admin">
+  <p class="frame-counter">◈ Accès restreint</p>
+  <h1 class="wordmark">Chambre&nbsp;noire</h1>
+  <p class="tagline">Le mot de passe déchiffre vos identifiants GitHub, stockés uniquement ici, dans ce navigateur.</p>
+</header>
+
+<main class="admin-wrap">
+  <a class="back-link" href="index.html">← Retour au site</a>
+
+  <div id="lockoutBanner" class="lockout-banner" hidden></div>
+
+  <section id="gateSet" class="gate gate--vault" hidden>
+    <span class="badge">Aucun coffre trouvé sur ce navigateur</span>
+    <h2 class="gate-title">Créer votre accès</h2>
+    <p class="hint">Vos identifiants GitHub seront chiffrés (AES-256-GCM) avec le mot de passe ci-dessous et stockés uniquement dans ce navigateur.</p>
+    <div class="field"><label for="vaultOwner">Compte GitHub</label><input type="text" id="vaultOwner" placeholder="ex. matheo" autocomplete="off"></div>
+    <div class="field"><label for="vaultRepo">Nom du dépôt</label><input type="text" id="vaultRepo" placeholder="ex. galerie-photo" autocomplete="off"></div>
+    <div class="field"><label for="vaultBranch">Branche</label><input type="text" id="vaultBranch" value="main" autocomplete="off"></div>
+    <div class="field">
+      <label for="vaultToken">Jeton d'accès personnel GitHub</label>
+      <input type="password" id="vaultToken" autocomplete="off" placeholder="github_pat_...">
+      <p class="hint">Jeton fin limité à ce dépôt, permissions <strong>Contents: Read and write</strong> et <strong>Issues: Read and write</strong> (nécessaire pour modérer le livre d'or) — sur <span class="mono">github.com/settings/personal-access-tokens</span>.</p>
+    </div>
+    <div class="field">
+      <label for="vaultPass1">Mot de passe du coffre</label>
+      <input type="password" id="vaultPass1" autocomplete="new-password">
+      <div class="strength"><div class="strength-bar" id="strengthBar"></div></div>
+      <p class="hint" id="strengthLabel">Au moins 8 caractères ; visez 12+ avec des mots peu communs.</p>
+    </div>
+    <div class="field"><label for="vaultPass2">Confirmer le mot de passe</label><input type="password" id="vaultPass2" autocomplete="new-password"></div>
+    <button class="primary" id="createVaultBtn">Chiffrer et verrouiller</button>
+    <p class="hint" id="vaultSetErr" style="color:#c9705a"></p>
+  </section>
+
+  <section id="gateUnlock" class="gate gate--unlock" hidden>
+    <span class="badge">Coffre chiffré détecté</span>
+    <h2 class="gate-title">Entrer le mot de passe</h2>
+    <div class="field"><label for="unlockPass">Mot de passe du coffre</label><input type="password" id="unlockPass" autocomplete="current-password"></div>
+    <button class="primary" id="unlockBtn">Déverrouiller</button>
+    <button class="ghost" id="resetVaultBtn">Oublié / réinitialiser</button>
+    <p class="hint" id="unlockErr" style="color:#c9705a"></p>
+  </section>
+
+  <section id="console" class="console" hidden>
+    <div class="console-head">
+      <span class="badge badge--live">Coffre déverrouillé</span>
+      <span class="badge mono" id="tokenScopeBadge" hidden></span>
+      <button class="ghost small" id="lockBtn">Verrouiller</button>
+    </div>
+
+    <div class="tab-row">
+      <button class="tab-btn active" data-tab="photos">📷 Photos</button>
+      <button class="tab-btn" data-tab="notes">📝 Notes</button>
+      <button class="tab-btn" data-tab="fichiers">📎 Fichiers</button>
+      <button class="tab-btn" data-tab="moderation">💬 Livre d'or</button>
+      <button class="tab-btn" data-tab="config">⚙️ Configuration</button>
+    </div>
+
+    <!-- ---------------- Onglet Photos ---------------- -->
+    <div class="tab-panel active" id="tab-photos">
+      <div class="folder-picker">
+        <div class="field">
+          <label for="folderSelect">Dossier de destination</label>
+          <select id="folderSelect"><option value="__new__">+ Nouveau dossier…</option></select>
+        </div>
+        <div class="field new-folder show" id="newFolderField">
+          <label for="newFolderName">Nom du nouveau dossier</label>
+          <input type="text" id="newFolderName" placeholder="ex. Voyage en Grèce">
+        </div>
+      </div>
+
+      <label class="opt-toggle"><input type="checkbox" id="optimizeToggle" checked> Optimiser les photos avant envoi (redimensionnement + compression côté navigateur)</label>
+
+      <div class="drop" id="drop">
+        <span class="drop-icon">◎</span>
+        <span>Glissez des photos ici, ou cliquez pour en choisir</span>
+        <input type="file" id="fileInput" accept="image/*" multiple hidden>
+      </div>
+
+      <div id="queue"></div>
+      <button class="primary" id="uploadBtn" disabled>Développer les tirages</button>
+      <button class="ghost" id="clearBtn">Vider la file</button>
+      <div class="log mono" id="log"></div>
+
+      <details class="library" id="libraryDetails" open>
+        <summary>Bibliothèque — gérer les photos déjà publiées</summary>
+        <button class="ghost small" id="refreshLibBtn" style="margin-bottom:1rem">↻ Actualiser</button>
+        <div id="libraryList"></div>
+      </details>
+    </div>
+
+    <!-- ---------------- Onglet Notes (journal) ---------------- -->
+    <div class="tab-panel" id="tab-notes">
+      <div class="field"><label for="postTitle">Titre</label><input type="text" id="postTitle" placeholder="ex. Retour de voyage"></div>
+      <div class="field"><label for="postBody">Texte</label><textarea id="postBody" rows="6" placeholder="Écris ta note…"></textarea></div>
+      <button class="ghost" id="previewPostBtn">👁 Aperçu</button>
+      <button class="primary" id="publishPostBtn">Publier la note</button>
+
+      <div class="preview-frame" id="postPreview" style="margin-top:1.2rem;display:none">
+        <p class="preview-hint">Aperçu — tel que ce sera affiché publiquement</p>
+        <article class="journal-entry" style="opacity:1;transform:none;animation:none">
+          <div class="je-date mono" id="ppDate"></div>
+          <h3 id="ppTitle"></h3>
+          <p id="ppBody"></p>
+        </article>
+      </div>
+
+      <div class="log mono" id="postsLog"></div>
+
+      <details class="library" open>
+        <summary>Notes publiées</summary>
+        <button class="ghost small" id="refreshPostsBtn" style="margin-bottom:1rem">↻ Actualiser</button>
+        <div id="postsList"></div>
+      </details>
+    </div>
+
+    <!-- ---------------- Onglet Fichiers ---------------- -->
+    <div class="tab-panel" id="tab-fichiers">
+      <div class="folder-picker">
+        <div class="field">
+          <label for="fileFolderSelect">Dossier de destination</label>
+          <select id="fileFolderSelect"><option value="__new__">+ Nouveau dossier…</option></select>
+        </div>
+        <div class="field new-folder show" id="newFileFolderField">
+          <label for="newFileFolderName">Nom du nouveau dossier</label>
+          <input type="text" id="newFileFolderName" placeholder="ex. Documents">
+        </div>
+      </div>
+
+      <div class="drop" id="dropFiles">
+        <span class="drop-icon">📎</span>
+        <span>Glissez n'importe quel fichier ici, ou cliquez pour en choisir</span>
+        <input type="file" id="fileFileInput" multiple hidden>
+      </div>
+
+      <div id="fileQueue"></div>
+      <button class="primary" id="uploadFilesBtn" disabled>Envoyer les fichiers</button>
+      <button class="ghost" id="clearFilesBtn">Vider la file</button>
+      <div class="log mono" id="filesLog"></div>
+
+      <details class="library" open>
+        <summary>Fichiers déjà publiés</summary>
+        <button class="ghost small" id="refreshFilesBtn" style="margin-bottom:1rem">↻ Actualiser</button>
+        <div id="filesList"></div>
+      </details>
+    </div>
+
+    <!-- ---------------- Onglet Modération livre d'or ---------------- -->
+    <div class="tab-panel" id="tab-moderation">
+      <p class="hint" style="margin-bottom:1.2rem">Les messages envoyés depuis le site public arrivent ici sous forme d'"issues" GitHub en attente. Publie ceux que tu veux voir apparaître dans le livre d'or, ou rejette les autres.</p>
+      <button class="ghost small" id="refreshModBtn" style="margin-bottom:1.2rem">↻ Actualiser</button>
+      <div id="modList"></div>
+      <div class="log mono" id="modLog"></div>
+    </div>
+
+    <!-- ---------------- Onglet Configuration ---------------- -->
+    <div class="tab-panel" id="tab-config">
+      <div class="field">
+        <label for="cfgContactEmail">Adresse e-mail de contact (publique)</label>
+        <input type="text" id="cfgContactEmail" placeholder="toi@exemple.com">
+        <p class="hint">Utilisée par le formulaire "Contact" du site pour pré-remplir un e-mail — visible dans le code public, comme n'importe quelle adresse de contact sur un site.</p>
+      </div>
+
+      <div class="field">
+        <label><input type="checkbox" id="cfgGbEnabled"> Activer le livre d'or public</label>
+      </div>
+
+      <div class="field">
+        <label for="cfgGbToken">Jeton public du livre d'or (Issues: write uniquement)</label>
+        <input type="password" id="cfgGbToken" autocomplete="off" placeholder="github_pat_...">
+        <p class="hint" style="color:#c9705a">⚠️ Ce jeton sera écrit <strong>en clair</strong> dans <span class="mono">site-config.json</span>, un fichier public. N'importe qui pourra le lire. Crée-le exprès pour cet usage, avec la <strong>seule</strong> permission "Issues: Read and write" sur ce dépôt — jamais "Contents". Le pire qu'un abus puisse faire avec ce jeton précis, c'est créer des issues. Tu peux le régénérer à tout moment si besoin.</p>
+      </div>
+
+      <button class="primary" id="saveConfigBtn">Enregistrer la configuration (publique)</button>
+      <div class="log mono" id="configLog"></div>
+
+      <details class="edit-creds">
+        <summary>Modifier compte / dépôt / jeton (coffre privé)</summary>
+        <div class="field"><label for="owner">Compte GitHub</label><input type="text" id="owner"></div>
+        <div class="field"><label for="repo">Nom du dépôt</label><input type="text" id="repo"></div>
+        <div class="field"><label for="branch">Branche</label><input type="text" id="branch"></div>
+        <div class="field"><label for="token">Jeton d'accès personnel GitHub</label><input type="password" id="token" autocomplete="off"></div>
+        <button class="primary" id="saveCredsBtn">Rechiffrer et enregistrer</button>
+      </details>
+
+      <details class="library">
+        <summary>Aperçu complet du site public</summary>
+        <button class="ghost small" id="refreshPreviewBtn" style="margin-bottom:1rem">↻ Générer l'aperçu</button>
+        <div class="preview-frame" id="fullPreview">
+          <p class="preview-hint">Clique sur "Générer l'aperçu" pour voir un résumé de ce qui est actuellement publié.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+</main>
+
+<script src="admin.js"></script>
+</body>
+</html>

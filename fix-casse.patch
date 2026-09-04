@@ -1,0 +1,20 @@
+*** Begin Patch
+*** Update File: index.html
+@@
+-<script src="app.js"></script>
++<script src="App.js"></script>
+*** End Patch
+
+*** Begin Patch
+*** Update File: samex-main/index.html
+@@
+-<script src="app.js"></script>
++<script src="App.js"></script>
+*** End Patch
+
+*** Begin Patch
+*** Update File: samex-main/samex-main/index.html
+@@
+-<script src="app.js"></script>
++<script src="App.js"></script>
+*** End Patch

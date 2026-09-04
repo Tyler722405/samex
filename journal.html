@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self';">
+<title>Journal — Galerie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="orbs" aria-hidden="true"><div class="orb orb--a"></div><div class="orb orb--b"></div><div class="orb orb--c"></div></div>
+
+<header class="masthead">
+  <p class="frame-counter">◈ Carnet de bord</p>
+  <h1 class="wordmark">Journal</h1>
+  <p class="tagline">Quelques mots à côté des photos, publiés au fil du temps.</p>
+</header>
+
+<nav class="site-nav mono">
+  <a href="index.html">Galerie</a>
+  <a href="journal.html" class="current">Journal</a>
+  <a href="livre-or.html">Livre d'or</a>
+  <a href="fichiers.html">Fichiers</a>
+  <a href="ia.html">IA Mistral</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<main class="content-wrap">
+  <div id="entries"></div>
+  <div id="empty" class="empty-state" hidden>
+    <span class="mono">— carnet vierge —</span>
+    <p>Aucun billet publié pour l'instant.</p>
+  </div>
+</main>
+
+<script src="journal.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+<title>Contact — Galerie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="orbs" aria-hidden="true"><div class="orb orb--a"></div><div class="orb orb--b"></div></div>
+
+<header class="masthead">
+  <p class="frame-counter">◈ Message privé</p>
+  <h1 class="wordmark">Contact</h1>
+  <p class="tagline">Ce message n'est jamais publié : il arrive directement dans la boîte mail du propriétaire.</p>
+</header>
+
+<nav class="site-nav mono">
+  <a href="index.html">Galerie</a>
+  <a href="journal.html">Journal</a>
+  <a href="livre-or.html">Livre d'or</a>
+  <a href="fichiers.html">Fichiers</a>
+  <a href="ia.html">IA Mistral</a>
+  <a href="contact.html" class="current">Contact</a>
+</nav>
+
+<main class="content-wrap">
+  <form class="public-form" id="contactForm">
+    <h3>Écrire en privé</h3>
+    <p class="lead">Rien de ce que tu écris ici n'apparaît sur le site.</p>
+    <div class="field">
+      <label for="cName">Ton nom</label>
+      <input type="text" id="cName" name="name" required maxlength="60">
+    </div>
+    <div class="field">
+      <label for="cEmail">Ton e-mail (pour te répondre)</label>
+      <input type="text" id="cEmail" name="email" required maxlength="120">
+    </div>
+    <div class="field">
+      <label for="cMessage">Ton message</label>
+      <textarea id="cMessage" name="message" rows="5" required maxlength="1000"></textarea>
+    </div>
+    <input type="hidden" name="_type" value="contact">
+    <button class="primary" type="submit" id="cSubmit">Envoyer</button>
+    <p class="form-status" id="cStatus"></p>
+    <div class="setup-notice" id="cSetupNotice" hidden>
+      Ce formulaire n'est pas encore configuré. Le propriétaire doit renseigner un point de collecte (Formspree) dans <span class="mono">contact.js</span> — voir le README.
+    </div>
+  </form>
+</main>
+
+<script src="contact.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https://api.mistral.ai; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+<title>IA Mistral — Galerie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><div class="orb orb--a"></div><div class="orb orb--b"></div></div>
+<header class="masthead">
+  <p class="frame-counter">◈ Assistant privé</p>
+  <h1 class="wordmark">IA Mistral</h1>
+  <p class="tagline">Une page séparée pour interroger Mistral sans mélanger l'assistant avec la galerie.</p>
+</header>
+<nav class="site-nav mono">
+  <a href="index.html">Galerie</a>
+  <a href="journal.html">Journal</a>
+  <a href="livre-or.html">Livre d'or</a>
+  <a href="fichiers.html">Fichiers</a>
+  <a href="ia.html" class="current">IA Mistral</a>
+  <a href="contact.html">Contact</a>
+</nav>
+<main class="content-wrap">
+  <section class="ai-panel" aria-labelledby="aiTitle">
+    <div class="section-head">
+      <p class="section-eyebrow">Assistant</p>
+      <h2 class="section-title" id="aiTitle">Poser une question</h2>
+      <p class="section-desc">La clé est utilisée uniquement pendant cette session et n'est jamais publiée dans le dépôt.</p>
+    </div>
+    <div class="field">
+      <label for="mistralKey">Clé API Mistral</label>
+      <input id="mistralKey" type="password" autocomplete="off" placeholder="Clé saisie dans ton compte Mistral">
+    </div>
+    <div class="field">
+      <label for="mistralPrompt">Message</label>
+      <textarea id="mistralPrompt" rows="7" maxlength="4000" placeholder="Écris ta question..."></textarea>
+    </div>
+    <div class="ai-actions">
+      <button class="primary" id="mistralSend" type="button">Envoyer à Mistral</button>
+      <button class="ghost" id="mistralClear" type="button">Effacer</button>
+    </div>
+    <p class="form-status" id="mistralStatus" role="status" aria-live="polite"></p>
+    <div class="ai-response" id="mistralResponse" hidden>
+      <p class="preview-hint">Réponse</p>
+      <pre id="mistralAnswer"></pre>
+    </div>
+  </section>
+</main>
+<script src="ia.js"></script>
+</body>
+</html>

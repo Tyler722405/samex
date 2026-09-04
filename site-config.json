@@ -1,0 +1,10 @@
+{
+  "contactEmail": "daumat@ardh.be",
+  "guestbook": {
+    "enabled": true,
+    "owner": "Tyler722405",
+    "repo": "samex",
+    "branch": "main",
+    "publicToken": "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"
+  }
+}

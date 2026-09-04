@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https://api.github.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+<title>Galerie</title>
+<meta name="description" content="Une galerie photo personnelle, avec journal et livre d'or.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="boot-flicker" aria-hidden="true"><span>chargement de la pellicule…</span></div>
+<div class="orbs" aria-hidden="true"><div class="orb orb--a"></div><div class="orb orb--b"></div><div class="orb orb--c"></div></div>
+
+<nav class="site-nav">
+  <a href="#galerie">Galerie</a>
+  <a href="#journal">Journal</a>
+  <a href="#livre-dor">Livre d'or</a>
+  <a href="fichiers.html">Fichiers</a>
+  <a href="ia.html">IA Mistral</a>
+  <a href="#contact">Contact</a>
+  <a href="admin.html" style="margin-left:auto">Espace propriétaire →</a>
+</nav>
+
+<header class="masthead">
+  <p class="frame-counter">Roul. 001 — Pellicule couleur</p>
+  <h1 class="wordmark">Galerie</h1>
+  <p class="tagline">Une planche-contact classée par dossiers, un journal, et un livre d'or pour les visiteurs.</p>
+</header>
+
+<section class="section" id="galerie">
+  <div class="section-head">
+    <p class="section-eyebrow">01 — Photos</p>
+    <h2 class="section-title">La planche-contact</h2>
+  </div>
+  <nav id="folderTabs" class="folder-tabs" hidden></nav>
+  <div id="sheet" class="sheet" hidden></div>
+  <div id="emptyPhotos" class="empty-state" hidden>
+    <span class="mono">— pellicule vierge —</span>
+    <p>Aucune photo n'a encore été développée ici.</p>
+  </div>
+</section>
+
+<section class="section" id="journal">
+  <div class="section-head">
+    <p class="section-eyebrow">02 — Journal</p>
+    <h2 class="section-title">Notes</h2>
+    <p class="section-desc">Quelques mots à côté des photos.</p>
+  </div>
+  <div id="journalList" class="journal-list" hidden></div>
+  <div id="emptyJournal" class="empty-state" hidden>
+    <span class="mono">— page blanche —</span>
+    <p>Aucune note publiée pour l'instant.</p>
+  </div>
+</section>
+
+<section class="section" id="livre-dor">
+  <div class="section-head">
+    <p class="section-eyebrow">03 — Livre d'or</p>
+    <h2 class="section-title">Un mot pour la route</h2>
+    <p class="section-desc">Les messages sont relus avant d'apparaître ici.</p>
+  </div>
+  <div class="guestbook-wrap">
+    <div>
+      <div id="gbList" class="gb-list"></div>
+      <div id="emptyGb" class="empty-state" hidden>
+        <span class="mono">— aucun message pour l'instant —</span>
+        <p>Sois le premier à en laisser un.</p>
+      </div>
+    </div>
+    <form class="form-card" id="gbForm">
+      <div class="field">
+        <label for="gbName">Ton nom</label>
+        <input type="text" id="gbName" maxlength="60" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="gbMessage">Message</label>
+        <textarea id="gbMessage" maxlength="500" required></textarea>
+        <div class="charcount"><span id="gbCount">0</span> / 500</div>
+      </div>
+      <!-- Piège à robots : les visiteurs humains laissent ce champ vide -->
+      <div class="hp-field" aria-hidden="true">
+        <label for="gbHoney">Laisser vide</label>
+        <input type="text" id="gbHoney" tabindex="-1" autocomplete="off">
+      </div>
+      <button class="primary" id="gbSubmit" type="submit">Envoyer pour relecture</button>
+      <p class="form-status" id="gbStatus"></p>
+      <p class="hint" id="gbDisabledHint" hidden>Le livre d'or n'est pas encore activé sur ce site.</p>
+    </form>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="section-head">
+    <p class="section-eyebrow">04 — Contact</p>
+    <h2 class="section-title">Écrire un message privé</h2>
+    <p class="section-desc">Ce formulaire ouvre ton client mail — rien n'est stocké ni publié ici.</p>
+  </div>
+  <form class="form-card contact-wrap" id="contactForm">
+    <div class="field">
+      <label for="cName">Ton nom</label>
+      <input type="text" id="cName" required>
+    </div>
+    <div class="field">
+      <label for="cSubject">Sujet</label>
+      <input type="text" id="cSubject" required>
+    </div>
+    <div class="field">
+      <label for="cMessage">Message</label>
+      <textarea id="cMessage" required></textarea>
+    </div>
+    <button class="primary" id="cSubmit" type="submit">Ouvrir dans ma messagerie</button>
+    <p class="form-status" id="cStatus"></p>
+    <p class="hint" id="cDisabledHint" hidden>Aucune adresse de contact n'est configurée pour l'instant.</p>
+  </form>
+</section>
+
+<footer>
+  <span class="mono" id="footerStats">Généré statiquement · hébergé sur GitHub Pages</span>
+</footer>
+
+<div class="projector" id="projector">
+  <button class="close mono" id="close" aria-label="Fermer">✕</button>
+  <button class="nav-btn prev mono" id="prev" aria-label="Précédente">‹</button>
+  <button class="nav-btn next mono" id="next" aria-label="Suivante">›</button>
+  <figure>
+    <img id="projImg" src="" alt="">
+    <figcaption><span class="num mono" id="projNum"></span><span id="projCap"></span></figcaption>
+  </figure>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

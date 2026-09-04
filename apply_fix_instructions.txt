@@ -1,0 +1,24 @@
+Deux options pour appliquer la correction :
+
+Option A — appliquer le patch (git) :
+1) Placez-vous dans le répertoire du dépôt local :
+   cd "\\\\ccserveur\\UsersData\\daumat\\Downloads\\samex-main"
+2) Appliquez le patch :
+   git apply fix-casse.patch
+3) Vérifiez les changements :
+   git diff --staged --name-only
+4) Commit & push :
+   git add -A
+   git commit -m "Fix: charger App.js (casse) pour GitHub Pages"
+   git push origin main
+
+Option B — renommer le fichier localement (PowerShell) :
+Exécutez le script `rename_app.ps1` (voir ci‑dessous) ou :
+   Rename-Item -LiteralPath .\\App.js -NewName app.js
+   git add App.js app.js index.html
+   git commit -m "Fix: normalize script filename to app.js"
+   git push origin main
+
+Vérification post-push :
+- Sur GitHub, Actions/Pages -> relancer le run si nécessaire.
+- Ouvrir la page et vérifier DevTools -> Network pour `App.js` et `photos/*`.

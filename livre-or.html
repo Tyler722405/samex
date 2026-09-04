@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+<title>Livre d'or — Galerie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="orbs" aria-hidden="true"><div class="orb orb--a"></div><div class="orb orb--b"></div><div class="orb orb--c"></div></div>
+
+<header class="masthead">
+  <p class="frame-counter">◈ Mot doux ou passage remarqué</p>
+  <h1 class="wordmark">Livre&nbsp;d'or</h1>
+  <p class="tagline">Laisse un mot. Il sera publié ici après relecture par le propriétaire.</p>
+</header>
+
+<nav class="site-nav mono">
+  <a href="index.html">Galerie</a>
+  <a href="journal.html">Journal</a>
+  <a href="livre-or.html" class="current">Livre d'or</a>
+  <a href="fichiers.html">Fichiers</a>
+  <a href="ia.html">IA Mistral</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<main class="content-wrap">
+  <form class="public-form" id="guestForm">
+    <h3>Écrire un mot</h3>
+    <p class="lead">Ton message n'apparaît pas tout de suite : il est d'abord relu, puis publié manuellement par le propriétaire du site.</p>
+    <div class="field">
+      <label for="gName">Ton nom</label>
+      <input type="text" id="gName" name="name" required maxlength="60">
+    </div>
+    <div class="field">
+      <label for="gMessage">Ton message</label>
+      <textarea id="gMessage" name="message" rows="4" required maxlength="600"></textarea>
+    </div>
+    <input type="hidden" name="_type" value="guestbook">
+    <button class="primary" type="submit" id="gSubmit">Envoyer</button>
+    <p class="form-status" id="gStatus"></p>
+    <div class="setup-notice" id="gSetupNotice" hidden>
+      Ce formulaire n'est pas encore configuré. Le propriétaire doit renseigner un point de collecte (Formspree) dans <span class="mono">guestbook.js</span> — voir le README.
+    </div>
+  </form>
+
+  <div id="entries" style="margin-top:2.4rem"></div>
+  <div id="empty" class="empty-state" hidden>
+    <span class="mono">— livre d'or vide —</span>
+    <p>Sois le·la premier·ère à laisser un mot.</p>
+  </div>
+</main>
+
+<script src="guestbook.js"></script>
+</body>
+</html>
